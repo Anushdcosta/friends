@@ -1,0 +1,48 @@
+<%- include("./partials/head.ejs") %>
+<%- include("./partials/menu.ejs") %>
+<body>
+    <div style="text-align: center;">
+        <h1 id="epis">Episode 1</h1>
+        <video id="videoPlayer" controls>
+            <source id="videoSource" type="video/mp4" />
+            Your browser does not support the video tag.
+        </video>
+        <div>
+            <button id="sizer" onclick="previousVideo()">&lt;</button>
+            <button id="sizer" onclick="nextVideo()" style = "margin-left: 21cm;">></button>
+        </div>
+    </div>
+
+    <script>
+        const season = "<%= season %>";  // Make sure 'season' is available here
+        let currentIndex = 1;
+        const totalVideos = 25;  // Total number of videos
+
+        function updateVideoSource() {
+            const videoSource = document.getElementById('videoSource');
+            let episodeNumber = currentIndex < 10 ? '0' + currentIndex : currentIndex;
+            document.getElementById("epis").innerText = "Episode " + episodeNumber;
+            let link = `http://149.202.66.6:8080/FriendsS01-S10/Friends.S0${season}/Friends.S0${season}E${episodeNumber}.mp4`;
+            videoSource.src = link;
+            document.getElementById('videoPlayer').load();
+        }
+
+        function nextVideo() {
+            if (currentIndex < totalVideos) {
+                currentIndex++;
+                updateVideoSource();
+            }
+        }
+
+        function previousVideo() {
+            if (currentIndex > 1) {
+                currentIndex--;
+                updateVideoSource();
+            }
+        }
+
+        // Initial load
+        updateVideoSource();
+    </script>
+</body>
+</html>
